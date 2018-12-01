@@ -14,10 +14,10 @@ npm i knex --save
 ```
 ```javascript
 
-#setup script in package.json if you don't want to install globally like the following
+#setup script in package.json if you dont want to install globally like the following
 
 "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
+  "test": "",
   "migrate": "knex migrate:latest"
 },
 
