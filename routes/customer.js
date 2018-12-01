@@ -28,7 +28,8 @@ server.post('/customers',async (req,res,next)=>{
 
     const schema = Joi.object().keys({
         name:Joi.string().alphanum().required(),
-        email:Joi.string().required()
+        email:Joi.string().required(),
+        balance:Joi.number()
     });
 
     const {error,value} = Joi.validate(requestObj,schema);
