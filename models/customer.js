@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
+const mongoPaginate = require('mongoose-paginate');
+
 const Schema   = mongoose.Schema;
 
 const CustomerSchema = new Schema({
@@ -21,6 +23,7 @@ const CustomerSchema = new Schema({
 });
 
 CustomerSchema.plugin(timestamp);
+CustomerSchema.plugin(mongoPaginate);
 
 const Customer = mongoose.model('Customer',CustomerSchema);
 

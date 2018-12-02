@@ -16,6 +16,7 @@
     "joi": "^14.3.0",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.14",
+    "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp": "^0.6.0",
     "restify": "^7.2.3",
     "restify-jwt-community": "^1.0.9"

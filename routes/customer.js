@@ -4,51 +4,66 @@ const Joi = require('joi');
 
 module.exports = (server)=>{
 
-server.get('/customers',async (req,res,next)=>{
+    server.get('/customers',async (req,res,next)=>{
 
-    try {
-        const customers = await Customer.find({});
-        res.send(customers);
-        next();
-    } catch (err) {
-        return next(new errors.InvalidContentError(err));  
-    }
-    
-});
+        try {
+            
+            const pageValue = req.query.page ? parseInt(req.query.page) : 1;
 
-server.post('/customers',async (req,res,next)=>{
+            const limitValue = req.query.limit ? parseInt(req.query.limit) : 10;
 
-    const {name,email,balance} = req.body;
+            //console.log(`Page value from query ${pageValue}`);
 
-    const requestObj = {
-        name:name,
-        email:email,
-        balance:balance
-    }
+            const customers = await Customer.paginate({},{ page: pageValue, limit: limitValue });
 
-    const schema = Joi.object().keys({
-        name:Joi.string().alphanum().required(),
-        email:Joi.string().required(),
-        balance:Joi.number()
+            res.json(200,customers);
+
+            next();
+
+        } catch (err) {
+
+            return next(new errors.InvalidContentError(err));  
+        }
+        
     });
 
-    const {error,value} = Joi.validate(requestObj,schema);
+    server.post('/customers',async (req,res,next)=>{
 
-    if(error){
-        res.send(302,error.details);
-    }
-    
-    const customer = new Customer(requestObj);
+        const {name,email,balance} = req.body;
 
-    try {
+        const requestObj = {
+            name:name,
+            email:email,
+            balance:balance
+        }
+
+        const schema = Joi.object().keys({
+            name:Joi.string().alphanum().required(),
+            email:Joi.string().required(),
+            balance:Joi.number()
+        });
+
+        const { error,value } = Joi.validate(requestObj,schema);
+
+        if(error){
+            res.send(302,error.details);
+        }
         
-        const newCustomer = await customer.save();
-        res.send(201,customer);
-        next();
-    } catch (err) {
-        return next(new errors.InternalError(err.message));
-    }
-   
-});
+        const customer = new Customer(requestObj);
+
+        try {
+
+            const newCustomer = await customer.save();
+
+            res.send(201,customer);
+
+            next();
+
+        } catch (err) {
+
+            return next(new errors.InternalError(err.message));
+        }
+    
+    });
 
 }
