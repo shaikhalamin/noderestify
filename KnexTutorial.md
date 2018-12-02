@@ -23,7 +23,7 @@ npm i knex --save
 
 ```
 
-#the above script will use for running for the following command
+#the above script will be use for running for the following command
 ```javascript
 
 npm run migrate

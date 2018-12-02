@@ -20,5 +20,5 @@ db.on('error',(err)=>{
 });
 db.once('open',()=>{
     require('./routes/customer')(server);
-
+    require('./routes/users')(server);
 });
